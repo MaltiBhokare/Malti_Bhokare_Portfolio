@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 export const metadata = {
   title: "Malti Bhokare | Portfolio",
   description: "MERN Stack Developer | AI Enthusiast | Computer Engineer",
+  icons: {
+    icon: "/favicon.png", // 👈 put your favicon path here
+  },
 };
 
 export default function RootLayout({

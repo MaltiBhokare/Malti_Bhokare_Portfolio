@@ -1,7 +1,9 @@
 
+
+
 // "use client";
 // import { useState } from "react";
-// import { motion } from "framer-motion";
+// import { motion, AnimatePresence } from "framer-motion";
 // import Image from "next/image";
 
 // // Certifications with categories
@@ -238,6 +240,7 @@
 
 // export default function Certifications() {
 //   const [activeCategory, setActiveCategory] = useState("All");
+//   const [selectedCert, setSelectedCert] = useState(null);
 
 //   const categories = ["All", ...new Set(certifications.map((c) => c.category))];
 
@@ -248,6 +251,7 @@
 
 //   return (
 //     <section className="py-20 bg-black text-white min-h-screen">
+//       {/* Heading */}
 //       <motion.h2
 //         initial={{ opacity: 0, y: -20 }}
 //         animate={{ opacity: 1, y: 0 }}
@@ -285,8 +289,9 @@
 //             initial={{ opacity: 0, y: 40 }}
 //             animate={{ opacity: 1, y: 0 }}
 //             transition={{ duration: 0.6, delay: i * 0.1 }}
-//             whileHover={{ scale: 1.05 }}
-//             className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 transition"
+//             whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px #22c55e" }}
+//             className="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-700 transition cursor-pointer"
+//             onClick={() => setSelectedCert(cert)}
 //           >
 //             <Image
 //               src={cert.img}
@@ -301,13 +306,57 @@
 //               </h3>
 //               <p className="text-gray-300 text-sm mb-1">{cert.issuer}</p>
 //               <p className="text-gray-400 text-xs">{cert.date}</p>
+//               <button className="mt-3 text-sm bg-green-500 text-black px-3 py-1 rounded hover:bg-green-600 transition">
+//                 View Certificate
+//               </button>
 //             </div>
 //           </motion.div>
 //         ))}
 //       </div>
+
+//       {/* Modal Preview */}
+//       <AnimatePresence>
+//         {selectedCert && (
+//           <motion.div
+//             className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             exit={{ opacity: 0 }}
+//           >
+//             <motion.div
+//               initial={{ scale: 0.8, opacity: 0 }}
+//               animate={{ scale: 1, opacity: 1 }}
+//               exit={{ scale: 0.8, opacity: 0 }}
+//               transition={{ duration: 0.3 }}
+//               className="bg-gray-900 p-6 rounded-xl shadow-xl max-w-3xl w-full relative"
+//             >
+//               <button
+//                 onClick={() => setSelectedCert(null)}
+//                 className="absolute top-2 right-2 text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+//               >
+//                 ✕
+//               </button>
+//               <Image
+//                 src={selectedCert.img}
+//                 alt={selectedCert.title}
+//                 width={800}
+//                 height={600}
+//                 className="w-full h-auto rounded"
+//               />
+//               <h3 className="text-2xl font-bold text-green-400 mt-4">
+//                 {selectedCert.title}
+//               </h3>
+//               <p className="text-gray-300">{selectedCert.issuer}</p>
+//               <p className="text-gray-400 text-sm">{selectedCert.date}</p>
+//             </motion.div>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
 //     </section>
 //   );
 // }
+
+
 
 
 
@@ -548,9 +597,19 @@ const certifications = [
   },
 ];
 
+// Type for a certification
+interface Certification {
+  title: string;
+  img: string;
+  issuer: string;
+  date: string;
+  category: string;
+}
+
 export default function Certifications() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedCert, setSelectedCert] = useState(null);
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+
 
   const categories = ["All", ...new Set(certifications.map((c) => c.category))];
 
