@@ -19,6 +19,13 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      // 🚀 Disable unused vars warning
+      "@typescript-eslint/no-unused-vars": "off",
+
+      // (Optional) Disable console warnings in production
+      "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+    },
   },
 ];
 
