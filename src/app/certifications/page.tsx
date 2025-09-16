@@ -238,9 +238,19 @@
 //   },
 // ];
 
+// // Type for a certification
+// interface Certification {
+//   title: string;
+//   img: string;
+//   issuer: string;
+//   date: string;
+//   category: string;
+// }
+
 // export default function Certifications() {
 //   const [activeCategory, setActiveCategory] = useState("All");
-//   const [selectedCert, setSelectedCert] = useState(null);
+//   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+
 
 //   const categories = ["All", ...new Set(certifications.map((c) => c.category))];
 
@@ -355,6 +365,7 @@
 //     </section>
 //   );
 // }
+
 
 
 
@@ -605,11 +616,9 @@ interface Certification {
   date: string;
   category: string;
 }
-
 export default function Certifications() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
-
 
   const categories = ["All", ...new Set(certifications.map((c) => c.category))];
 
@@ -619,13 +628,13 @@ export default function Certifications() {
       : certifications.filter((c) => c.category === activeCategory);
 
   return (
-    <section className="py-20 bg-black text-white min-h-screen">
+    <section className="py-16 sm:py-20 bg-black text-white min-h-screen px-4 sm:px-6 lg:px-16">
       {/* Heading */}
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-extrabold text-center mb-12"
+        className="text-3xl sm:text-4xl font-extrabold text-center mb-10 sm:mb-12"
       >
         My{" "}
         <span className="text-green-500 underline decoration-green-500">
@@ -634,12 +643,12 @@ export default function Certifications() {
       </motion.h2>
 
       {/* Category Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
         {categories.map((cat, i) => (
           <button
             key={i}
             onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-full border ${
+            className={`px-4 sm:px-5 py-2 rounded-full border text-sm sm:text-base ${
               activeCategory === cat
                 ? "bg-green-500 text-black border-green-500"
                 : "border-gray-600 text-gray-300 hover:bg-gray-800"
@@ -651,7 +660,7 @@ export default function Certifications() {
       </div>
 
       {/* Certifications Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 px-6 md:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
         {filteredCerts.map((cert, i) => (
           <motion.div
             key={i}
@@ -667,15 +676,17 @@ export default function Certifications() {
               alt={cert.title}
               width={500}
               height={300}
-              className="w-full h-56 object-cover"
+              className="w-full h-48 sm:h-56 object-cover"
             />
-            <div className="p-5">
-              <h3 className="text-xl font-bold text-green-400 mb-2">
+            <div className="p-4 sm:p-5">
+              <h3 className="text-lg sm:text-xl font-bold text-green-400 mb-2">
                 {cert.title}
               </h3>
-              <p className="text-gray-300 text-sm mb-1">{cert.issuer}</p>
+              <p className="text-gray-300 text-xs sm:text-sm mb-1">
+                {cert.issuer}
+              </p>
               <p className="text-gray-400 text-xs">{cert.date}</p>
-              <button className="mt-3 text-sm bg-green-500 text-black px-3 py-1 rounded hover:bg-green-600 transition">
+              <button className="mt-3 text-xs sm:text-sm bg-green-500 text-black px-3 py-1 rounded hover:bg-green-600 transition">
                 View Certificate
               </button>
             </div>
@@ -687,7 +698,7 @@ export default function Certifications() {
       <AnimatePresence>
         {selectedCert && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -697,11 +708,11 @@ export default function Certifications() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-900 p-6 rounded-xl shadow-xl max-w-3xl w-full relative"
+              className="bg-gray-900 p-4 sm:p-6 rounded-xl shadow-xl w-full max-w-lg sm:max-w-3xl relative"
             >
               <button
                 onClick={() => setSelectedCert(null)}
-                className="absolute top-2 right-2 text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+                className="absolute top-2 right-2 text-xs sm:text-sm text-white bg-red-500 px-2 sm:px-3 py-1 rounded hover:bg-red-600"
               >
                 ✕
               </button>
@@ -712,11 +723,15 @@ export default function Certifications() {
                 height={600}
                 className="w-full h-auto rounded"
               />
-              <h3 className="text-2xl font-bold text-green-400 mt-4">
+              <h3 className="text-lg sm:text-2xl font-bold text-green-400 mt-4">
                 {selectedCert.title}
               </h3>
-              <p className="text-gray-300">{selectedCert.issuer}</p>
-              <p className="text-gray-400 text-sm">{selectedCert.date}</p>
+              <p className="text-gray-300 text-sm sm:text-base">
+                {selectedCert.issuer}
+              </p>
+              <p className="text-gray-400 text-xs sm:text-sm">
+                {selectedCert.date}
+              </p>
             </motion.div>
           </motion.div>
         )}

@@ -73,14 +73,23 @@
 //             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
 //           </Link>
 
+//           {/* Education 👇 NEW */}
 //           <Link
-//   href="/certifications"
-//   className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-// >
-//   Certifications
-//   <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-// </Link>
+//             href="/education"
+//             className="relative text-gray-300 font-medium group hover:text-green-400 transition"
+//           >
+//             Education
+//             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
+//           </Link>
 
+//           {/* Certifications */}
+//           <Link
+//             href="/certifications"
+//             className="relative text-gray-300 font-medium group hover:text-green-400 transition"
+//           >
+//             Certifications
+//             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
+//           </Link>
 
 //           {/* Contact */}
 //           <Link
@@ -100,9 +109,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,81 +135,63 @@ export default function Navbar() {
           <span className="text-green-500">Malti</span>.dev
         </h1>
 
-        {/* Links */}
+        {/* Desktop Links */}
         <div className="hidden md:flex space-x-8">
-          {/* Home / Hero */}
-          <Link
-            href="/"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Home
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* About */}
-          <Link
-            href="/about"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            About
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Skills */}
-          <Link
-            href="/#skills"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Skills
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Projects */}
-          <Link
-            href="/#projects"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Projects
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Experience */}
-          <Link
-            href="/experience"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Experience
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Education 👇 NEW */}
-          <Link
-            href="/education"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Education
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Certifications */}
-          <Link
-            href="/certifications"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Certifications
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-
-          {/* Contact */}
-          <Link
-            href="/contact"
-            className="relative text-gray-300 font-medium group hover:text-green-400 transition"
-          >
-            Contact
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
+          {[
+            { name: "Home", href: "/" },
+            { name: "About", href: "/about" },
+            { name: "Skills", href: "/#skills" },
+            { name: "Projects", href: "/#projects" },
+            { name: "Experience", href: "/experience" },
+            { name: "Education", href: "/education" },
+            { name: "Certifications", href: "/certifications" },
+            { name: "Contact", href: "/contact" },
+          ].map((link, i) => (
+            <Link
+              key={i}
+              href={link.href}
+              className="relative text-gray-300 font-medium group hover:text-green-400 transition"
+            >
+              {link.name}
+              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-400 transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          ))}
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-gray-300 hover:text-green-400 transition text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle Menu"
+        >
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-black/95 backdrop-blur-md px-6 py-4 space-y-4 shadow-lg">
+          {[
+            { name: "Home", href: "/" },
+            { name: "About", href: "/about" },
+            { name: "Skills", href: "/#skills" },
+            { name: "Projects", href: "/#projects" },
+            { name: "Experience", href: "/experience" },
+            { name: "Education", href: "/education" },
+            { name: "Certifications", href: "/certifications" },
+            { name: "Contact", href: "/contact" },
+          ].map((link, i) => (
+            <Link
+              key={i}
+              href={link.href}
+              className="block text-gray-300 font-medium hover:text-green-400 transition"
+              onClick={() => setMenuOpen(false)} // Close menu on click
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
